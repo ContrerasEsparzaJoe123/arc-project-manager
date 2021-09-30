@@ -20,7 +20,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker
+  KeyboardDatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -33,12 +33,12 @@ import EnhancedTable from "../src/ui/EnhancedTable";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   service: {
-    fontWeight: 300
+    fontWeight: 300,
   },
   users: {
-    marginRight: 0
+    marginRight: 0,
   },
   button: {
     color: "#fff",
@@ -46,9 +46,9 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 50,
     textTransform: "none",
     "&:hover": {
-      backgroundColor: theme.palette.secondary.light
-    }
-  }
+      backgroundColor: theme.palette.secondary.light,
+    },
+  },
 }));
 
 function createData(
@@ -71,7 +71,7 @@ function createData(
     platforms,
     users,
     total,
-    search
+    search,
   };
 }
 
@@ -133,7 +133,7 @@ export default function ProjectManager() {
       "10-100",
       "$1250",
       true
-    )
+    ),
   ]);
 
   const platformOptions = ["Web", "iOS", "Android"];
@@ -143,7 +143,7 @@ export default function ProjectManager() {
     "File Transfer",
     "Users/Authentication",
     "Biometrics",
-    "Push Notifications"
+    "Push Notifications",
   ];
   var websiteOptions = ["Basic", "Interactive", "E-Commerce"];
 
@@ -178,7 +178,7 @@ export default function ProjectManager() {
         service === "Website" ? "N/A" : users,
         `$${total}`,
         true
-      )
+      ),
     ]);
     setDialogOpen(false);
     setName("");
@@ -191,15 +191,15 @@ export default function ProjectManager() {
     setFeatures([]);
   };
 
-  const handleSearch = event => {
+  const handleSearch = (event) => {
     setSearch(event.target.value);
 
-    const rowData = rows.map(row =>
-      Object.values(row).filter(option => option !== true && option !== false)
+    const rowData = rows.map((row) =>
+      Object.values(row).filter((option) => option !== true && option !== false)
     );
 
-    const matches = rowData.map(row =>
-      row.map(option =>
+    const matches = rowData.map((row) =>
+      row.map((option) =>
         option.toLowerCase().includes(event.target.value.toLowerCase())
       )
     );
@@ -225,7 +225,7 @@ export default function ProjectManager() {
           aria-label="service"
           name="service"
           value={service}
-          onChange={event => {
+          onChange={(event) => {
             setService(event.target.value);
             setFeatures([]);
           }}
@@ -269,7 +269,7 @@ export default function ProjectManager() {
             aria-label="complexity"
             name="complexity"
             value={complexity}
-            onChange={event => setComplexity(event.target.value)}
+            onChange={(event) => setComplexity(event.target.value)}
           >
             <FormControlLabel
               disabled={service === "Website"}
@@ -314,13 +314,13 @@ export default function ProjectManager() {
             aria-label="users"
             name="users"
             value={users}
-            onChange={event => setUsers(event.target.value)}
+            onChange={(event) => setUsers(event.target.value)}
           >
             <FormControlLabel
               disabled={service === "Website"}
               classes={{
                 label: classes.service,
-                root: classes.users
+                root: classes.users,
               }}
               value="0-10"
               label="0-10"
@@ -330,7 +330,7 @@ export default function ProjectManager() {
               disabled={service === "Website"}
               classes={{
                 label: classes.service,
-                root: classes.users
+                root: classes.users,
               }}
               value="10-100"
               label="10-100"
@@ -340,7 +340,7 @@ export default function ProjectManager() {
               disabled={service === "Website"}
               classes={{
                 label: classes.service,
-                root: classes.users
+                root: classes.users,
               }}
               value="100+"
               label="100+"
@@ -353,146 +353,146 @@ export default function ProjectManager() {
   );
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <Grid
+      container
+      direction="column"
+      alignItems={matchesSM ? "center" : undefined}
+    >
       <Grid
-        container
-        direction="column"
-        alignItems={matchesSM ? "center" : undefined}
+        item
+        style={{ marginTop: "2em", marginLeft: matchesSM ? 0 : "5em" }}
       >
-        <Grid
-          item
-          style={{ marginTop: "2em", marginLeft: matchesSM ? 0 : "5em" }}
-        >
-          <Typography variant="h1">Projects</Typography>
-        </Grid>
-        <Grid item>
-          <TextField
-            placeholder="Search project details or create a new entry."
-            value={search}
-            onChange={handleSearch}
-            style={{
-              width: matchesSM ? "25em" : "35em",
-              marginLeft: matchesSM ? 0 : "5em"
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  style={{ cursor: "pointer " }}
-                  onClick={() => setDialogOpen(true)}
-                >
-                  <AddIcon color="primary" style={{ fontSize: 30 }} />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Grid>
-        <Grid
-          item
-          style={{ marginLeft: matchesSM ? 0 : "5em", marginTop: "2em" }}
-        >
-          <FormGroup row>
-            <Grid
-              container
-              direction={matchesSM ? "column" : "row"}
-              justify={matchesSM ? "center" : undefined}
-            >
-              <Grid item>
-                <FormControlLabel
-                  style={{ marginRight: matchesSM ? 0 : "5em" }}
-                  control={
-                    <Switch
-                      checked={websiteChecked}
-                      color="primary"
-                      onChange={() => setWebsiteChecked(!websiteChecked)}
-                    />
-                  }
-                  label="Websites"
-                  labelPlacement={matchesSM ? "end" : "start"}
-                />
-              </Grid>
-              <Grid item>
-                <FormControlLabel
-                  style={{ marginRight: matchesSM ? 0 : "5em" }}
-                  control={
-                    <Switch
-                      checked={iOSChecked}
-                      color="primary"
-                      onChange={() => setiOSChecked(!iOSChecked)}
-                    />
-                  }
-                  label="iOS Apps"
-                  labelPlacement={matchesSM ? "end" : "start"}
-                />
-              </Grid>
-              <Grid item>
-                <FormControlLabel
-                  style={{ marginRight: matchesSM ? 0 : "5em" }}
-                  control={
-                    <Switch
-                      checked={androidChecked}
-                      color="primary"
-                      onChange={() => setAndroidChecked(!androidChecked)}
-                    />
-                  }
-                  label="Android Apps"
-                  labelPlacement={matchesSM ? "end" : "start"}
-                />
-              </Grid>
-              <Grid item>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={softwareChecked}
-                      color="primary"
-                      onChange={() => setSoftwareChecked(!softwareChecked)}
-                    />
-                  }
-                  label="Custom Software"
-                  labelPlacement={matchesSM ? "end" : "start"}
-                />
-              </Grid>
-            </Grid>
-          </FormGroup>
-        </Grid>
-        <Grid
-          item
+        <Typography variant="h1">Projects</Typography>
+      </Grid>
+      <Grid item>
+        <TextField
+          placeholder="Search project details or create a new entry."
+          value={search}
+          onChange={handleSearch}
           style={{
-            marginTop: "5em",
-            maxWidth: "100%",
-            marginBottom: matchesMD ? "40em" : "35em"
+            width: matchesSM ? "25em" : "35em",
+            marginLeft: matchesSM ? 0 : "5em",
           }}
-        >
-          <EnhancedTable
-            rows={rows}
-            setRows={setRows}
-            page={page}
-            setPage={setPage}
-            websiteChecked={websiteChecked}
-            iOSChecked={iOSChecked}
-            androidChecked={androidChecked}
-            softwareChecked={softwareChecked}
-          />
-        </Grid>
-        <Dialog
-          fullWidth
-          maxWidth="md"
-          open={dialogOpen}
-          fullScreen={matchesSM}
-          style={{ zIndex: 1302 }}
-          onClose={() => setDialogOpen(false)}
-        >
-          <Grid container justify="center">
+          InputProps={{
+            endAdornment: (
+              <InputAdornment
+                position="end"
+                style={{ cursor: "pointer " }}
+                onClick={() => setDialogOpen(true)}
+              >
+                <AddIcon color="primary" style={{ fontSize: 30 }} />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Grid>
+      <Grid
+        item
+        style={{ marginLeft: matchesSM ? 0 : "5em", marginTop: "2em" }}
+      >
+        <FormGroup row>
+          <Grid
+            container
+            direction={matchesSM ? "column" : "row"}
+            justifyContent={matchesSM ? "center" : undefined}
+          >
             <Grid item>
-              <Typography variant="h1" gutterBottom>
-                Add a new project
-              </Typography>
+              <FormControlLabel
+                style={{ marginRight: matchesSM ? 0 : "5em" }}
+                control={
+                  <Switch
+                    checked={websiteChecked}
+                    color="primary"
+                    onChange={() => setWebsiteChecked(!websiteChecked)}
+                  />
+                }
+                label="Websites"
+                labelPlacement={matchesSM ? "end" : "start"}
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                style={{ marginRight: matchesSM ? 0 : "5em" }}
+                control={
+                  <Switch
+                    checked={iOSChecked}
+                    color="primary"
+                    onChange={() => setiOSChecked(!iOSChecked)}
+                  />
+                }
+                label="iOS Apps"
+                labelPlacement={matchesSM ? "end" : "start"}
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                style={{ marginRight: matchesSM ? 0 : "5em" }}
+                control={
+                  <Switch
+                    checked={androidChecked}
+                    color="primary"
+                    onChange={() => setAndroidChecked(!androidChecked)}
+                  />
+                }
+                label="Android Apps"
+                labelPlacement={matchesSM ? "end" : "start"}
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={softwareChecked}
+                    color="primary"
+                    onChange={() => setSoftwareChecked(!softwareChecked)}
+                  />
+                }
+                label="Custom Software"
+                labelPlacement={matchesSM ? "end" : "start"}
+              />
             </Grid>
           </Grid>
-          <DialogContent>
+        </FormGroup>
+      </Grid>
+      <Grid
+        item
+        style={{
+          marginTop: "5em",
+          maxWidth: "100%",
+          marginBottom: matchesMD ? "40em" : "35em",
+        }}
+      >
+        <EnhancedTable
+          rows={rows}
+          setRows={setRows}
+          page={page}
+          setPage={setPage}
+          websiteChecked={websiteChecked}
+          iOSChecked={iOSChecked}
+          androidChecked={androidChecked}
+          softwareChecked={softwareChecked}
+        />
+      </Grid>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={dialogOpen}
+        fullScreen={matchesSM}
+        style={{ zIndex: 1300 }}
+        onClose={() => setDialogOpen(false)}
+      >
+        <Grid container justifyContent="center">
+          <Grid item>
+            <Typography variant="h1" gutterBottom>
+              Add a new project
+            </Typography>
+          </Grid>
+        </Grid>
+        <DialogContent>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid
               container
-              justify="space-between"
+              justifyContent="space-between"
               direction={matchesSM ? "column" : "row"}
             >
               <Grid item>
@@ -513,7 +513,7 @@ export default function ProjectManager() {
                       fullWidth={!matchesSM}
                       id="name"
                       value={name}
-                      onChange={event => setName(event.target.value)}
+                      onChange={(event) => setName(event.target.value)}
                     />
                   </Grid>
                   <Grid
@@ -535,9 +535,9 @@ export default function ProjectManager() {
                           platforms.length > 0 ? undefined : () => "Platforms"
                         }
                         value={platforms}
-                        onChange={event => setPlatforms(event.target.value)}
+                        onChange={(event) => setPlatforms(event.target.value)}
                       >
-                        {platformOptions.map(option => (
+                        {platformOptions.map((option) => (
                           <MenuItem key={option} value={option}>
                             {option}
                           </MenuItem>
@@ -558,10 +558,12 @@ export default function ProjectManager() {
                 >
                   <Grid item style={{ marginTop: matchesSM ? 50 : null }}>
                     <KeyboardDatePicker
-                      style={{ width: matchesSM ? 250 : undefined }}
+                      style={{
+                        width: matchesSM ? 250 : undefined,
+                      }}
                       format="MM/dd/yyyy"
                       value={date}
-                      onChange={newDate => setDate(newDate)}
+                      onChange={(newDate) => setDate(newDate)}
                     />
                   </Grid>
                   <Hidden smDown>{complexityQuestions}</Hidden>
@@ -581,12 +583,12 @@ export default function ProjectManager() {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">$</InputAdornment>
-                        )
+                        ),
                       }}
                       value={total}
                       id="total"
                       label="Total"
-                      onChange={event => setTotal(event.target.value)}
+                      onChange={(event) => setTotal(event.target.value)}
                     />
                   </Grid>
                   <Hidden smDown>{userQuestions}</Hidden>
@@ -603,12 +605,12 @@ export default function ProjectManager() {
                         features.length > 0 ? undefined : () => "Features"
                       }
                       value={features}
-                      onChange={event => setFeatures(event.target.value)}
+                      onChange={(event) => setFeatures(event.target.value)}
                     >
                       {service === "Website"
                         ? (featureOptions = websiteOptions)
                         : null}
-                      {featureOptions.map(option => (
+                      {featureOptions.map((option) => (
                         <MenuItem key={option} value={option}>
                           {option}
                         </MenuItem>
@@ -618,7 +620,11 @@ export default function ProjectManager() {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid container justify="center" style={{ marginTop: "3em" }}>
+            <Grid
+              container
+              justifyContent="center"
+              style={{ marginTop: "3em" }}
+            >
               <Grid item>
                 <Button
                   onClick={() => setDialogOpen(false)}
@@ -652,9 +658,9 @@ export default function ProjectManager() {
                 </Button>
               </Grid>
             </Grid>
-          </DialogContent>
-        </Dialog>
-      </Grid>
-    </MuiPickersUtilsProvider>
+          </MuiPickersUtilsProvider>
+        </DialogContent>
+      </Dialog>
+    </Grid>
   );
 }
