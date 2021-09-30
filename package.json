@@ -10,14 +10,14 @@
     "@material-ui/styles": "^4.7.1",
     "clsx": "latest",
     "date-fns": "^2.0.0-beta.5",
-    "next": "latest",
+    "next": "10.2.3",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest"
   },
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start"
   }
 }
