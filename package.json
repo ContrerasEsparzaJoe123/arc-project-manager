@@ -14,10 +14,7 @@
     "next": "10.2.3",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "react-redux": "^7.2.5",
-    "redux": "^4.1.1",
-    "redux-thunk": "^2.3.0"
+    "react-dom": "latest"
   },
   "scripts": {
     "dev": "next",

@@ -33,7 +33,6 @@ import EnhancedTable from "../src/ui/EnhancedTable";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
 import axios from "axios";
-import { getProjects } from "../src/actions/projects";
 
 const useStyles = makeStyles((theme) => ({
   service: {
@@ -106,12 +105,6 @@ export default function ProjectManager() {
     };
     fetchAllProjects();
   }, []);
-
-  /*
-  useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
-*/
 
   /*
   const {
@@ -187,7 +180,6 @@ export default function ProjectManager() {
   ]);
 */
 
-  // console.log(rows);
   const platformOptions = ["Web", "iOS", "Android"];
   var featureOptions = [
     "Photo/Video",
