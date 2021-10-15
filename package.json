@@ -8,16 +8,23 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/pickers": "^3.2.8",
     "@material-ui/styles": "^4.7.1",
+    "axios": "^0.23.0",
     "clsx": "latest",
     "date-fns": "^2.0.0-beta.5",
     "next": "10.2.3",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-redux": "^7.2.5",
+    "redux": "^4.1.1",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "dev": "next",
     "build": "next build && next export",
     "start": "next start"
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.9"
   }
 }

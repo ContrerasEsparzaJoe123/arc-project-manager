@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -32,6 +32,8 @@ import { format } from "date-fns";
 import EnhancedTable from "../src/ui/EnhancedTable";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
+import axios from "axios";
+import { getProjects } from "../src/actions/projects";
 
 const useStyles = makeStyles((theme) => ({
   service: {
@@ -75,9 +77,57 @@ function createData(
   };
 }
 
+const initialState = [
+  {
+    name: "",
+    date: new Date(),
+    total: "",
+    service: "",
+    complexity: "",
+    users: "",
+    platforms: [],
+    features: [],
+  },
+];
+
 export default function ProjectManager() {
   const classes = useStyles();
   const theme = useTheme();
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    const fetchAllProjects = async () => {
+      const response = await axios.get(
+        "https://arc-dev-backend.herokuapp.com/project/fetchMany/"
+      );
+      // const resData = await response.json();
+      setRows(response.data);
+      console.log(response.data);
+    };
+    fetchAllProjects();
+  }, []);
+
+  /*
+  useEffect(() => {
+    dispatch(getProjects());
+  }, [dispatch]);
+*/
+
+  /*
+  const {
+    name,
+    date,
+    total,
+    service,
+    complexity,
+    users,
+    platforms,
+    features,
+  } = rows;
+
+*/
+
+  /*
   const [rows, setRows] = useState([
     createData(
       "Zachary Reece",
@@ -135,7 +185,9 @@ export default function ProjectManager() {
       true
     ),
   ]);
+*/
 
+  // console.log(rows);
   const platformOptions = ["Web", "iOS", "Android"];
   var featureOptions = [
     "Photo/Video",
@@ -473,6 +525,7 @@ export default function ProjectManager() {
           softwareChecked={softwareChecked}
         />
       </Grid>
+      {/*
       <Dialog
         fullWidth
         maxWidth="md"
@@ -661,6 +714,7 @@ export default function ProjectManager() {
           </MuiPickersUtilsProvider>
         </DialogContent>
       </Dialog>
+*/}
     </Grid>
   );
 }

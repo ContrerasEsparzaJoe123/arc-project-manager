@@ -6,6 +6,16 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/ui/Theme";
 import Header from "../src/ui/Header";
 import Footer from "../src/ui/Footer";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { reducers } from "../src/reducers";
+import { composeWithDevTools } from "redux-devtools-extension";
+
+const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -24,6 +34,7 @@ export default class MyApp extends App {
         <Head>
           <title>My page</title>
         </Head>
+
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
