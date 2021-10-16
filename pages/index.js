@@ -33,6 +33,7 @@ import EnhancedTable from "../src/ui/EnhancedTable";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
 import axios from "axios";
+import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   service: {
@@ -99,8 +100,13 @@ export default function ProjectManager() {
       const response = await axios.get(
         "https://arc-dev-backend.herokuapp.com/project/fetchMany/"
       );
-      // const resData = await response.json();
-      setRows(response.data);
+
+      const newRes = response.data.map((proj) =>
+        _.omit(proj, ["_id", "__v", "createdAt", "updatedAt"])
+      );
+
+      console.log(newRes);
+      setRows(newRes);
       console.log(response.data);
     };
     fetchAllProjects();
@@ -238,6 +244,7 @@ export default function ProjectManager() {
   const handleSearch = (event) => {
     setSearch(event.target.value);
 
+    console.log(rows);
     const rowData = rows.map((row) =>
       Object.values(row).filter((option) => option !== true && option !== false)
     );
@@ -258,6 +265,40 @@ export default function ProjectManager() {
     setRows(newRows);
     setPage(0);
   };
+
+  /*
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+
+    const rowData = rows.map((row) =>
+      Object.values(row).filter((option) => option !== true && option !== false)
+    );
+
+    // console.log(rowData);
+    const matches = rows.map((row) => {
+      // console.log(routes);
+      console.log(row);
+      // console.log(nonString);
+
+      row.map((option) => {
+        // console.log(option);
+        option.toLowerCase().includes(event.target.value.toLowerCase());
+      });
+      return row;
+    });
+
+    const newRows = [...rows];
+    matches.map((row, index) => {
+      // console.log(row);
+      row.includes(true)
+        ? (newRows[index].search = true)
+        : (newRows[index].search = false);
+    });
+
+    setRows(newRows);
+    setPage(0);
+  };
+*/
 
   const serviceQuestions = (
     <React.Fragment>
@@ -517,7 +558,7 @@ export default function ProjectManager() {
           softwareChecked={softwareChecked}
         />
       </Grid>
-      {/*
+
       <Dialog
         fullWidth
         maxWidth="md"
@@ -706,7 +747,6 @@ export default function ProjectManager() {
           </MuiPickersUtilsProvider>
         </DialogContent>
       </Dialog>
-*/}
     </Grid>
   );
 }
