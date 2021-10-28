@@ -94,6 +94,7 @@ export default function ProjectManager() {
   const classes = useStyles();
   const theme = useTheme();
   const [rows, setRows] = useState([]);
+  const [callback, setCallback] = useState(false);
 
   useEffect(() => {
     const fetchAllProjects = async () => {
@@ -105,12 +106,12 @@ export default function ProjectManager() {
         _.omit(proj, ["_id", "__v", "createdAt", "updatedAt"])
       );
 
-      console.log(newRes);
+      // console.log(newRes);
       setRows(newRes);
-      console.log(response.data);
+      // console.log(response.data);
     };
     fetchAllProjects();
-  }, []);
+  }, [callback]);
 
   /*
   const {
@@ -215,7 +216,37 @@ export default function ProjectManager() {
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const addProject = () => {
+  const addProject = async () => {
+    try {
+      const res = await axios.post(
+        "https://arc-dev-backend.herokuapp.com/project/create/",
+        {
+          name: name,
+          date: format(date, "MM/dd/yy"),
+          service: service,
+          features: features.join(", "),
+          complexity: service === "Website" ? "N/A" : complexity,
+          platforms: service === "Website" ? "N/A" : platforms.join(", "),
+          users: service === "Website" ? "N/A" : users,
+          total: `$${total}`,
+          search: true,
+        }
+      );
+      setDialogOpen(false);
+      setName("");
+      setDate(new Date());
+      setTotal("");
+      setService("");
+      setComplexity("");
+      setUsers("");
+      setPlatforms([]);
+      setFeatures([]);
+      setCallback(!callback);
+    } catch (e) {
+      console.log(e);
+    }
+
+    /*
     setRows([
       ...rows,
       createData(
@@ -230,15 +261,7 @@ export default function ProjectManager() {
         true
       ),
     ]);
-    setDialogOpen(false);
-    setName("");
-    setDate(new Date());
-    setTotal("");
-    setService("");
-    setComplexity("");
-    setUsers("");
-    setPlatforms([]);
-    setFeatures([]);
+*/
   };
 
   const handleSearch = (event) => {
