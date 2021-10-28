@@ -8,16 +8,25 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1302,
     position: "relative",
     height: "15.5em",
+    [theme.breakpoints.down("md")]: {
+      height: "11.5em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "9.5em",
+    },
   },
   adornment: {
     width: "25em",
     height: "15.5em",
     verticalAlign: "bottom",
     [theme.breakpoints.down("md")]: {
+      marginLeft: "-1rem",
       width: "21em",
+      height: "11.5em",
     },
     [theme.breakpoints.down("xs")]: {
       width: "15em",
+      height: "9.5em",
     },
   },
 }));
