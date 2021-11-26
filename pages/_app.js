@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "../src/ui/Theme";
 import Header from "../src/ui/Header";
 import Footer from "../src/ui/Footer";
+import { UserProvider } from "@auth0/nextjs-auth0";
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -22,15 +23,17 @@ export default class MyApp extends App {
     return (
       <React.Fragment>
         <Head>
-          <title>My page</title>
+          <title>Project Manager</title>
         </Head>
 
         <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Header />
-          <Component {...pageProps} />
-          <Footer />
+          <UserProvider>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Header />
+            <Component {...pageProps} />
+            <Footer />
+          </UserProvider>
         </ThemeProvider>
       </React.Fragment>
     );

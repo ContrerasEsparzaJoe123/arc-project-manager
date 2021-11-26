@@ -34,6 +34,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
 import axios from "axios";
 import _ from "lodash";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   service: {
@@ -562,6 +564,9 @@ export default function ProjectManager() {
           </Grid>
         </FormGroup>
       </Grid>
+      <Link href="/api/auth/logout">
+        <a>Logout</a>
+      </Link>
       <Grid
         item
         style={{
@@ -773,3 +778,8 @@ export default function ProjectManager() {
     </Grid>
   );
 }
+
+// export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired({
+  returnTo: "/api/auth/login",
+});
