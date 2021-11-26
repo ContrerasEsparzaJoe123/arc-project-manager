@@ -564,9 +564,6 @@ export default function ProjectManager() {
           </Grid>
         </FormGroup>
       </Grid>
-      <Link href="/api/auth/logout">
-        <a>Logout</a>
-      </Link>
       <Grid
         item
         style={{
