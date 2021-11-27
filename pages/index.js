@@ -775,7 +775,9 @@ export default function ProjectManager() {
   );
 }
 
-// export const getServerSideProps = withPageAuthRequired();
+export const getServerSideProps = withPageAuthRequired();
+/*
 export const getServerSideProps = withPageAuthRequired({
   returnTo: "/api/auth/login",
 });
+*/
