@@ -2,36 +2,54 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Button, useMediaQuery } from "@material-ui/core";
+import Link from "next/link";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
     marginBottom: "3em",
     [theme.breakpoints.down("md")]: {
-      marginBottom: "2em"
+      marginBottom: "2em",
     },
     [theme.breakpoints.down("xs")]: {
-      marginBottom: "1.25em"
-    }
+      marginBottom: "1.25em",
+    },
   },
   logo: {
-    height: "8em",
+    height: "9em",
     textTransform: "none",
     [theme.breakpoints.down("md")]: {
-      height: "7em"
+      height: "7em",
     },
     [theme.breakpoints.down("xs")]: {
-      height: "5.5em"
-    }
+      height: "5.5em",
+    },
   },
   appbar: {
-    zIndex: theme.zIndex.modal + 1
-  }
+    zIndex: theme.zIndex.modal + 1,
+  },
+  button: {
+    ...theme.typography.estimate,
+    borderRadius: "50px",
+    fontSize: "1.2rem",
+    fontWeight: 500,
+    color: theme.palette.primary.dark,
+    width: "200px",
+    height: "45px",
+    position: "absolute",
+    right: "1em",
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
+  },
 }));
 
 export default function Header(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
   return (
     <React.Fragment>
@@ -90,6 +108,22 @@ export default function Header(props) {
               d="M457-17l-8.93 16-9.62 17.24-8.36 14.96L369.93 139l-.01.01L361 155"
             />
           </svg>
+          <Link href="/api/auth/logout">
+            {matchesXS ? (
+              <ExitToAppIcon
+                color="secondary"
+                style={{ fontSize: 35, position: "absolute", right: ".5em" }}
+              />
+            ) : (
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+              >
+                Logout
+              </Button>
+            )}
+          </Link>
         </Toolbar>
       </AppBar>
       <div className={classes.toolbarMargin} />

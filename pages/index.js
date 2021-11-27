@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -32,6 +32,9 @@ import { format } from "date-fns";
 import EnhancedTable from "../src/ui/EnhancedTable";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Hidden from "@material-ui/core/Hidden";
+import axios from "axios";
+import _ from "lodash";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 const useStyles = makeStyles((theme) => ({
   service: {
@@ -75,9 +78,57 @@ function createData(
   };
 }
 
+const initialState = [
+  {
+    name: "",
+    date: new Date(),
+    total: "",
+    service: "",
+    complexity: "",
+    users: "",
+    platforms: [],
+    features: [],
+  },
+];
+
 export default function ProjectManager() {
   const classes = useStyles();
   const theme = useTheme();
+  const [rows, setRows] = useState([]);
+  const [callback, setCallback] = useState(false);
+
+  useEffect(() => {
+    const fetchAllProjects = async () => {
+      const response = await axios.get(
+        "https://arc-dev-backend.herokuapp.com/project/fetchMany/"
+      );
+
+      const newRes = response.data.map((proj) =>
+        _.omit(proj, ["_id", "__v", "createdAt", "updatedAt"])
+      );
+
+      // console.log(newRes);
+      setRows(newRes);
+      // console.log(response.data);
+    };
+    fetchAllProjects();
+  }, [callback]);
+
+  /*
+  const {
+    name,
+    date,
+    total,
+    service,
+    complexity,
+    users,
+    platforms,
+    features,
+  } = rows;
+
+*/
+
+  /*
   const [rows, setRows] = useState([
     createData(
       "Zachary Reece",
@@ -135,6 +186,7 @@ export default function ProjectManager() {
       true
     ),
   ]);
+*/
 
   const platformOptions = ["Web", "iOS", "Android"];
   var featureOptions = [
@@ -165,7 +217,37 @@ export default function ProjectManager() {
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const addProject = () => {
+  const addProject = async () => {
+    try {
+      const res = await axios.post(
+        "https://arc-dev-backend.herokuapp.com/project/create/",
+        {
+          name: name,
+          date: format(date, "MM/dd/yy"),
+          service: service,
+          features: features.join(", "),
+          complexity: service === "Website" ? "N/A" : complexity,
+          platforms: service === "Website" ? "N/A" : platforms.join(", "),
+          users: service === "Website" ? "N/A" : users,
+          total: `$${total}`,
+          search: true,
+        }
+      );
+      setDialogOpen(false);
+      setName("");
+      setDate(new Date());
+      setTotal("");
+      setService("");
+      setComplexity("");
+      setUsers("");
+      setPlatforms([]);
+      setFeatures([]);
+      setCallback(!callback);
+    } catch (e) {
+      console.log(e);
+    }
+
+    /*
     setRows([
       ...rows,
       createData(
@@ -180,20 +262,13 @@ export default function ProjectManager() {
         true
       ),
     ]);
-    setDialogOpen(false);
-    setName("");
-    setDate(new Date());
-    setTotal("");
-    setService("");
-    setComplexity("");
-    setUsers("");
-    setPlatforms([]);
-    setFeatures([]);
+*/
   };
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
 
+    console.log(rows);
     const rowData = rows.map((row) =>
       Object.values(row).filter((option) => option !== true && option !== false)
     );
@@ -214,6 +289,40 @@ export default function ProjectManager() {
     setRows(newRows);
     setPage(0);
   };
+
+  /*
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+
+    const rowData = rows.map((row) =>
+      Object.values(row).filter((option) => option !== true && option !== false)
+    );
+
+    // console.log(rowData);
+    const matches = rows.map((row) => {
+      // console.log(routes);
+      console.log(row);
+      // console.log(nonString);
+
+      row.map((option) => {
+        // console.log(option);
+        option.toLowerCase().includes(event.target.value.toLowerCase());
+      });
+      return row;
+    });
+
+    const newRows = [...rows];
+    matches.map((row, index) => {
+      // console.log(row);
+      row.includes(true)
+        ? (newRows[index].search = true)
+        : (newRows[index].search = false);
+    });
+
+    setRows(newRows);
+    setPage(0);
+  };
+*/
 
   const serviceQuestions = (
     <React.Fragment>
@@ -473,6 +582,7 @@ export default function ProjectManager() {
           softwareChecked={softwareChecked}
         />
       </Grid>
+
       <Dialog
         fullWidth
         maxWidth="md"
@@ -664,3 +774,10 @@ export default function ProjectManager() {
     </Grid>
   );
 }
+
+export const getServerSideProps = withPageAuthRequired();
+/*
+export const getServerSideProps = withPageAuthRequired({
+  returnTo: "/api/auth/login",
+});
+*/

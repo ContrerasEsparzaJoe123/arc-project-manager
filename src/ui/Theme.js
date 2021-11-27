@@ -9,6 +9,7 @@ export default createMuiTheme({
     common: {
       blue: arcBlue,
       orange: arcOrange,
+      grey: arcGrey,
     },
     primary: {
       main: arcBlue,
@@ -26,7 +27,7 @@ export default createMuiTheme({
       fontSize: "1rem",
     },
     estimate: {
-      fontFamily: "Pacifico",
+      fontFamily: "Raleway",
       fontSize: "1rem",
       textTransform: "none",
       color: "white",

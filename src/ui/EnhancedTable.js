@@ -28,6 +28,7 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
+import axios from "axios";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -191,12 +192,38 @@ const EnhancedTableToolbar = (props) => {
     const selectedRows = newRows.filter((row) =>
       props.selected.includes(row.name)
     );
+    // console.log(selectedRows);
     selectedRows.map((row) => (row.search = false));
     props.setRows(newRows);
 
     setUndo(selectedRows);
     props.setSelected([]);
     setAlert({ ...alert, open: true });
+  };
+
+  const onFinalDelete = () => {
+    const newSelected = [...undo];
+    const selectedRows = newSelected.filter((row) =>
+      props.selected.includes(row.name)
+    );
+    console.log(selectedRows);
+    try {
+      selectedRows.map(async (row) => {
+        const res = await axios.post(
+          "https://arc-dev-backend.herokuapp.com/project/delete",
+          {
+            name: row.name,
+            service: row.service,
+            total: row.total,
+          }
+        );
+        console.log(res);
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // console.log(selectedRows);
+    // selectedRows.map((row) => (row.search = false));
   };
 
   const onUndo = () => {
@@ -296,8 +323,25 @@ const EnhancedTableToolbar = (props) => {
           if (reason === "clickaway") {
             setAlert({ ...alert, open: false });
             const newRows = [...props.rows];
+            // console.log(newRows);
             const names = [...undo.map((row) => row.name)];
+            // console.log(undo);
+            try {
+              undo.map(async (row) => {
+                await axios.post(
+                  "https://arc-dev-backend.herokuapp.com/project/delete",
+                  {
+                    name: row.name,
+                    service: row.service,
+                    total: row.total,
+                  }
+                );
+              });
+            } catch (e) {
+              console.log(e);
+            }
             props.setRows(newRows.filter((row) => !names.includes(row.name)));
+            // onFinalDelete();
           }
         }}
         action={
