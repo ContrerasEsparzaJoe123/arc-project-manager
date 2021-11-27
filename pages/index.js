@@ -35,7 +35,6 @@ import Hidden from "@material-ui/core/Hidden";
 import axios from "axios";
 import _ from "lodash";
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
-import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   service: {
