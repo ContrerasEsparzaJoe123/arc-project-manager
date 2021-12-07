@@ -23,3 +23,5 @@ yarn-error.log*
 /.idea/prettier.xml
 /.idea/vcs.xml
 /yarn.lock
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/project-manager-prod.iml
