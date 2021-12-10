@@ -1,14 +1,9 @@
-module.exports = {
-  // basePath: "/api/auth/login",
-  /*
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/api/auth/login",
-        permanent: true,
-      },
-    ];
-  },
-*/
-};
+const withPWA = require('next-pwa')
+const runtimeCaching = require('next-pwa/cache')
+
+module.exports = withPWA({
+    pwa: {
+        dest: 'public',
+        runtimeCaching,
+    },
+})
