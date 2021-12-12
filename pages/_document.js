@@ -9,7 +9,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
-          <link rel="icon" href="/favicon.png" />
+          <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
           {/*
           <meta
             name="viewport"
@@ -22,7 +22,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Raleway:100,400,400i,700|Roboto:300,400,500,700&display=swap"
           />
-          <title>Amp Project Manager</title>
         </Head>
         <body style={{ backgroundColor: "#fff" }}>
           <Main />
