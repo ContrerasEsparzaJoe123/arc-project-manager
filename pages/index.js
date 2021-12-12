@@ -475,7 +475,7 @@ export default function ProjectManager() {
       </Grid>
       <Grid item>
         <TextField
-          placeholder="Search project details or create a new entry."
+          placeholder="Search project details or create a new entry"
           value={search}
           onChange={handleSearch}
           style={{
