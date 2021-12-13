@@ -74,7 +74,7 @@ export default function Header(props) {
               className="st1 st2"
               fontSize="57"
             >
-              Arc
+              Amp
             </text>
             <text
               transform="translate(17.692 112.015)"
